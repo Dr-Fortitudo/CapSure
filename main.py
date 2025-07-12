@@ -2,6 +2,16 @@ from flask import Flask, render_template, Response, request
 import cv2
 import onnxruntime as ort
 import numpy as np
+import zipfile
+import os
+
+MODEL_ZIP = "best.zip"
+MODEL_ONNX = "best.onnx"
+
+# Unzip only if not already extracted
+if not os.path.exists(MODEL_ONNX):
+    with zipfile.ZipFile(MODEL_ZIP, 'r') as zip_ref:
+        zip_ref.extractall(".")
 
 app = Flask(__name__)
 session = ort.InferenceSession("best.onnx")
